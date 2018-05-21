@@ -1,0 +1,646 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%% Simple LaTeX CV Template %%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% NOTE: If you find that it says                                     %%
+%%                                                                    %%
+%%                           1 of ??                                  %%
+%%                                                                    %%
+%% at the bottom of your first page, this means that the AUX file     %%
+%% was not available when you ran LaTeX on this source. Simply RERUN  %%
+%% LaTeX to get the ``??'' replaced with the number of the last page  %%
+%% of the document. The AUX file will be generated on the first run   %%
+%% of LaTeX and used on the second run to fill in all of the          %%
+%% references.                                                        %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%% Document Setup %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Don't like 10pt? Try 11pt or 12pt
+\documentclass[10pt]{article}
+
+% The automated optical recognition software used to digitize resume
+% information works best with fonts that do not have serifs. This
+% command uses a sans serif font throughout. Uncomment both lines (or at
+% least the second) to restore a Roman font (i.e., a font with serifs).
+%\usepackage{times}
+%\renewcommand{\familydefault}{\sfdefault}
+
+% This is a helpful package that puts math inside length specifications
+\usepackage{calc}
+
+% Layout: Puts the section titles on left side of page
+\reversemarginpar
+
+%
+%         PAPER SIZE, PAGE NUMBER, AND DOCUMENT LAYOUT NOTES:
+%
+% The next \usepackage line changes the layout for CV style section
+% headings as marginal notes. It also sets up the paper size as either
+% letter or A4. By default, letter was used. If A4 paper is desired,
+% comment out the letterpaper lines and uncomment the a4paper lines.
+%
+% As you can see, the margin widths and section title widths can be
+% easily adjusted.
+%
+% ALSO: Notice that the includefoot option can be commented OUT in order
+% to put the PAGE NUMBER *IN* the bottom margin. This will make the
+% effective text area larger.
+%
+% IF YOU WISH TO REMOVE THE ``of LASTPAGE'' next to each page number,
+% see the note about the +LP and -LP lines below. Comment out the +LP
+% and uncomment the -LP.
+%
+% IF YOU WISH TO REMOVE PAGE NUMBERS, be sure that the includefoot line
+% is uncommented and ALSO uncomment the \pagestyle{empty} a few lines
+% below.
+%
+
+%% Use these lines for letter-sized paper
+\usepackage[paper=letterpaper,
+            %includefoot, % Uncomment to put page number above margin
+            marginparwidth=1.2in,     % Length of section titles
+            marginparsep=.05in,       % Space between titles and text
+            margin=1in,               % 1 inch margins
+            includemp]{geometry}
+
+%% Use these lines for A4-sized paper
+%\usepackage[paper=a4paper,
+%            %includefoot, % Uncomment to put page number above margin
+%            marginparwidth=30.5mm,    % Length of section titles
+%            marginparsep=1.5mm,       % Space between titles and text
+%            margin=25mm,              % 25mm margins
+%            includemp]{geometry}
+
+%% More layout: Get rid of indenting throughout entire document
+\setlength{\parindent}{0in}
+
+\usepackage[shortlabels]{enumitem}
+
+% Simpler bibsections for CV sections
+% (thanks to natbib for inspiration)
+%
+% * For lists of references with hanging indents and no numbers:
+%
+%   \begin{bibsection}
+%       \item[]...
+%   \end{bibsection}
+%
+% * For numbered lists of references (with hanging indents):
+%
+%   \begin{bibenum}
+%       \item[]...
+%   \end{bibenum}
+%
+%   Note that bibenum numbers continuously throughout. To reset the
+%   counter, use
+%
+%   \restartlist{bibenum}
+%
+%   at the place where you want the numbering to reset.
+
+\makeatletter
+\newlength{\bibhang}
+\setlength{\bibhang}{1em}
+\newlength{\bibsep}
+ {\@listi \global\bibsep\itemsep \global\advance\bibsep by\parsep}
+\newlist{bibsection}{itemize}{3}
+\setlist[bibsection]{label=,leftmargin=\bibhang,%
+        itemindent=-\bibhang,
+        itemsep=\bibsep,parsep=\z@,partopsep=0pt,
+        topsep=0pt}
+\newlist{bibenum}{enumerate}{3}
+\setlist[bibenum]{label=[\arabic*],resume,leftmargin={\bibhang+\widthof{[999]}},%
+        itemindent=-\bibhang,
+        itemsep=\bibsep,parsep=\z@,partopsep=0pt,
+        topsep=0pt}
+\let\oldendbibenum\endbibenum
+\def\endbibenum{\oldendbibenum\vspace{-.6\baselineskip}}
+\let\oldendbibsection\endbibsection
+\def\endbibsection{\oldendbibsection\vspace{-.6\baselineskip}}
+\makeatother
+
+%% Reference the last page in the page number
+%
+% NOTE: comment the +LP line and uncomment the -LP line to have page
+%       numbers without the ``of ##'' last page reference)
+%
+% NOTE: uncomment the \pagestyle{empty} line to get rid of all page
+%       numbers (make sure includefoot is commented out above)
+%
+\usepackage{fancyhdr,lastpage}
+\pagestyle{fancy}
+%\pagestyle{empty}      % Uncomment this to get rid of page numbers
+\fancyhf{}\renewcommand{\headrulewidth}{0pt}
+\fancyfootoffset{\marginparsep+\marginparwidth}
+\newlength{\footpageshift}
+\setlength{\footpageshift}
+          {0.5\textwidth+0.5\marginparsep+0.5\marginparwidth-2in}
+\lfoot{\hspace{\footpageshift}%
+       \parbox{4in}{\, \hfill %
+                    \arabic{page} of \protect\pageref*{LastPage} % +LP
+%                    \arabic{page}                               % -LP
+                    \hfill \,}}
+
+% Finally, give us PDF bookmarks
+\usepackage{color,hyperref}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.3}
+\hypersetup{colorlinks,breaklinks,
+            linkcolor=darkblue,urlcolor=darkblue,
+            anchorcolor=darkblue,citecolor=darkblue}
+
+%%%%%%%%%%%%%%%%%%%%%%%% End Document Setup %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%% Helper Commands %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% HEADING AT TOP OF CURRICULUM VITAE
+
+% The title (name) with a horizontal rule under it
+% (optional argument typesets an object right-justified across from name
+%  as well)
+%
+% Usage: \makeheading{name}
+%        OR
+%        \makeheading[right_object]{name}
+%
+% Place at top of document. It should be the first thing.
+% If ``right_object'' is provided in the square-braced optional
+% argument, it will be right justified on the same line as ``name'' at
+% the top of the CV. For example:
+%
+%       \makeheading[\emph{Curriculum vitae}]{Your Name}
+%
+% will put an emphasized ``Curriculum vitae'' at the top of the document
+% as a title. Likewise, a picture could be included:
+%
+%   \makeheading[\includegraphics[height=1.5in]{my_picutre}]{Your Name}
+%
+% the picture will be flush right across from the name.
+\newcommand{\makeheading}[2][]%
+        {\hspace*{-\marginparsep minus \marginparwidth}%
+         \begin{minipage}[t]{\textwidth+\marginparwidth+\marginparsep}%
+             {\large \bfseries #2 \hfill #1}\\[-0.15\baselineskip]%
+                 \rule{\columnwidth}{1pt}%
+         \end{minipage}}
+
+%%% SECTION HEADINGS
+
+% The section headings. Flush left in small caps down pseudo-margin.
+%
+% Usage: \section{section name}
+\renewcommand{\section}[1]{\pagebreak[3]%
+    \vspace{1.3\baselineskip}%
+    \phantomsection\addcontentsline{toc}{section}{#1}%
+    \noindent\llap{\scshape\smash{\parbox[t]{\marginparwidth}{\hyphenpenalty=10000\raggedright #1}}}%
+    \vspace{-\baselineskip}\par}
+
+%%% LISTS
+
+% This macro alters a list by removing some of the space that follows the list
+% (is used by lists below)
+\newcommand*\fixendlist[1]{%
+    \expandafter\let\csname preFixEndListend#1\expandafter\endcsname\csname end#1\endcsname
+    \expandafter\def\csname end#1\endcsname{\csname preFixEndListend#1\endcsname\vspace{-0.6\baselineskip}}}
+
+% These macros help ensure that items in outer-type lists do not get
+% separated from the next line by a page break
+% (they are used by lists below)
+\let\originalItem\item
+\newcommand*\fixouterlist[1]{%
+    \expandafter\let\csname preFixOuterList#1\expandafter\endcsname\csname #1\endcsname
+    \expandafter\def\csname #1\endcsname{\csname preFixOuterList#1\endcsname\let\oldItem\item\def\item{\pagebreak[2]\oldItem}}
+    \expandafter\let\csname preFixOuterListend#1\expandafter\endcsname\csname end#1\endcsname
+    \expandafter\def\csname end#1\endcsname{\let\item\oldItem\csname preFixOuterListend#1\endcsname}}
+\newcommand*\fixinnerlist[1]{%
+    \expandafter\let\csname preFixInnerList#1\expandafter\endcsname\csname #1\endcsname
+    \expandafter\def\csname #1\endcsname{\let\oldItem\item\let\item\originalItem\csname preFixInnerList#1\endcsname}
+    \expandafter\let\csname preFixInnerListend#1\expandafter\endcsname\csname end#1\endcsname
+    \expandafter\def\csname end#1\endcsname{\csname preFixInnerListend#1\endcsname\let\item\oldItem}}
+
+
+% An itemize-style list with lots of space between items
+%
+% Usage:
+%   \begin{outerlist}
+%       \item[]...    % (or \item[] for no bullet)
+%   \end{outerlist}
+\newlist{outerlist}{itemize}{3}
+    \setlist[outerlist]{label=\enskip\textbullet,leftmargin=*}
+    \fixendlist{outerlist}
+    \fixouterlist{outerlist}
+
+% An environment IDENTICAL to outerlist that has better pre-list spacing
+% when used as the first thing in a \section
+%
+% Usage:
+%   \begin{lonelist}
+%       \item[]...    % (or \item[] for no bullet)
+%   \end{lonelist}
+\newlist{lonelist}{itemize}{3}
+    \setlist[lonelist]{label=\enskip\textbullet,leftmargin=*,partopsep=0pt,topsep=0pt}
+    \fixendlist{lonelist}
+    \fixouterlist{lonelist}
+
+% An itemize-style list with little space between items
+%
+% Usage:
+%   \begin{innerlist}
+%       \item[]...    % (or \item[] for no bullet)
+%   \end{innerlist}
+\newlist{innerlist}{itemize}{3}
+    \setlist[innerlist]{label=\enskip\textbullet,leftmargin=*,parsep=0pt,itemsep=0pt,topsep=0pt,partopsep=0pt}
+    \fixinnerlist{innerlist}
+
+% An environment IDENTICAL to innerlist that has better pre-list spacing
+% when used as the first thing in a \section
+%
+% Usage:
+%   \begin{loneinnerlist}
+%       \item[]...    % (or \item[] for no bullet)
+%   \end{loneinnerlist}
+\newlist{loneinnerlist}{itemize}{3}
+    \setlist[loneinnerlist]{label=\enskip\textbullet,leftmargin=*,parsep=0pt,itemsep=0pt,topsep=0pt,partopsep=0pt}
+    \fixendlist{loneinnerlist}
+    \fixinnerlist{loneinnerlist}
+
+%%% EXTRA SPACE
+
+% To add some paragraph space between lines.
+% This also tells LaTeX to preferably break a page on one of these gaps
+% if there is a needed pagebreak nearby.
+\newcommand{\blankline}{\quad\pagebreak[3]}
+\newcommand{\halfblankline}{\quad\vspace{-0.5\baselineskip}\pagebreak[3]}
+
+%%% FORMATTING MACROS
+
+% Uses hyperref to link DOI
+\newcommand\doilink[1]{\href{http://dx.doi.org/#1}{#1}}
+\newcommand\doi[1]{doi:\doilink{#1}}
+
+% For \url{SOME_URL}, links SOME_URL to the url SOME_URL
+\providecommand*\url[1]{\href{#1}{#1}}
+% Same as above, but pretty-prints SOME_URL in teletype fixed-width font
+\renewcommand*\url[1]{\href{#1}{\texttt{#1}}}
+
+% For \email{ADDRESS}, links ADDRESS to the url mailto:ADDRESS
+\providecommand*\email[1]{\href{mailto:#1}{#1}}
+% Same as above, but pretty-prints ADDRESS in teletype fixed-width font
+%\renewcommand*\email[1]{\href{mailto:#1}{\texttt{#1}}}
+
+%\providecommand\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+%    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+%\providecommand\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+%    \TeX}}
+\providecommand\BibTeX{{B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    \TeX}}
+\providecommand\Matlab{\textsc{Matlab}}
+
+% Custom hyphenation rules for words that LaTeX has trouble with
+\hyphenation{bio-mim-ic-ry bio-in-spi-ra-tion re-us-a-ble pro-vid-er}
+
+%%%%%%%%%%%%%%%%%%%%%%%% End Helper Commands %%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%% Begin CV Document %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\makeheading{~Erik B.~Johnson}
+
+\section{Contact Information}
+
+% NOTE: Mind where the & separators and \\ breaks are in the following
+%       table. Table is one row made up of three parboxes. The left
+%       parbox has address info, the middle parbox has a vertical bar,
+%       and the right parbox has phone and electronic contact
+%       information.
+%
+% MACROS: \rcollength is the width of the right column of the table
+%             (adjust it to your liking; default is 1.85in).
+%         \spacewidth is width of area between left and right boxes.
+%         \spacechar is character used to produce perforated vertical
+%             boundary between boxes.
+%
+\newlength{\rcollength}\setlength{\rcollength}{2.5in}%
+\newlength{\spacewidth}\setlength{\spacewidth}{20pt}
+
+\newcommand\spacechar{$ $}
+%
+\begin{tabular}[t]{@{}p{\textwidth-\rcollength-\spacewidth}@{}p{\spacewidth}@{}p{\rcollength}}%
+
+% Address box
+\parbox{\textwidth-\rcollength-\spacewidth}{%
+\begin{innerlist}
+    \item[] Department of Economics, Finance and Legal Studies
+    \item[] Culverhouse School of Commerce
+    \item[] University of Alabama
+    \item[] Tuscaloosa AL, 35487
+\end{innerlist}
+}
+
+% Cheesy perforated vertical bar between boxes
+% Shorten by removing \spacechar's
+& \parbox{\spacewidth}{\centering \spacechar\\\spacechar\\\spacechar\\\spacechar\\\spacechar} &
+
+% Non-snail-mail contact information
+\parbox{\rcollength}{%
+\begin{innerlist}
+\item[] ebjohnson5@cba.ua.edu
+\item[] (720) 234-7675
+\item[] \href{https://github.com/erikbjohn}{\color{blue}https://github.com/erikbjohn}
+\item[] \href{http://bit.ly/2qy6f3I}{\color{blue}http://bit.ly/2qy6f3I}
+\end{innerlist}
+}
+
+\end{tabular}
+
+\section{Academic Appointments}
+\begin{outerlist}
+\item[] \href{https://culverhouse.ua.edu/}{\textbf{University of Alabama}}, Tuscaloosa, AL
+    \begin{innerlist}
+    \item[] Assistant Professor of Economics (2017-Present)
+    \end{innerlist}
+\item[] \href{http://www.richmond.edu/}{\textbf{University of Richmond}}, Richmond, VA
+    \begin{innerlist}
+    \item[] Assistant Professor of Economics (2015-2017)
+    \end{innerlist}
+\item[] \href{http://www.quinnipiac.edu/}{\textbf{Quinnipiac University}}, Hamden, CT
+    \begin{innerlist}
+    \item[] Associate Professor of Economics (2015)
+    \item[] Assistant Professor of Economics (2008-2015)
+    \end{innerlist}
+\item[] \href{http://www.colorado.edu/}{\textbf{University of Colorado}}, Boulder, CO
+    \begin{innerlist}
+    \item[] Research Assistant - Randall Walsh (2006-2008)
+    \end{innerlist}
+\end{outerlist}
+
+\section{Education}
+\begin{outerlist}
+\item[] \href{http://www.colorado.edu/}{\textbf{University of Colorado}}, Boulder, CO
+    \begin{innerlist}
+    \item[] Ph.D. Economics (2008)
+    \end{innerlist}
+\item[] \href{http://www.nmu.edu/}{\textbf{Northern Michigan University}}, Marquette, MI
+    \begin{innerlist}
+    \item[] B.S. Economics (1999)
+    \end{innerlist}
+\end{outerlist}
+
+\section{Publications}
+
+\begin{outerlist}
+\item[] \textbf{Journal of Urban Economics} 91 (2016)
+    \begin{innerlist}
+    \item[] Intergenerational Conflict, Ethnic Divisions and the Political Economy of Higher Education Funding w. Eric Brunner
+    \end{innerlist}
+
+  \item[]\textbf{Journal of Urban Economics} 91  (2016)
+   \begin{innerlist}
+    \item[] Agglomeration within an Urban Area  w. Stephen Billings
+    \end{innerlist}
+
+ \item[]\textbf{Regional Science and Urban Economics} 43(5) (2013)
+    \begin{innerlist}
+    \item[] The effect of property taxes on vacation home growth rates: Evidence from Michigan w. Randall Walsh
+    \end{innerlist}
+
+ \item[]\textbf{Regional Science and Urban Economics} 42(4) (2012)
+    \begin{innerlist}
+    \item[] The location quotient as an estimator of industrial concentration w. Stephen Billings
+    \end{innerlist}
+
+ \item[]\textbf{Journal of Urban Economics}, 71(3) (2012)
+    \begin{innerlist}
+    \item[] A non-parametric test for industrial specialization w. Stephen Billings
+    \end{innerlist}
+\end{outerlist}
+
+\section{Working Papers}
+
+\begin{bibenum}
+
+ \item[] Visual Urban Amenities  \emph{[Working]}
+    \begin{innerlist}\item[] with T. Hamilton\end{innerlist}
+
+\item[] The Value of Curb Appeal: A Machine Learning Approach  \emph{[Working]}
+    \begin{innerlist}\item[] with T. Hamilton\end{innerlist}
+
+\item[] The Impact of Architectural Style: Evidence from Cambridge \emph{[Working]}
+    \begin{innerlist}\item[] with T. Lindenthal\end{innerlist}
+    
+\item[]The Spatial Gini as a Measure of Industrial Concentration: Is simpler better?
+    \begin{innerlist}\item[] with S. Billings
+      \emph{[Working]} \end{innerlist}
+
+\item[]The impact of large scale policy changes on local spending choices: Evidence from New York
+  \begin{innerlist}\item[] with Eric Brunner and Steve Ross \emph{[Working]}\end{innerlist}
+
+\item[]The effect of marijuana retail openings on commerical real estate prices and neighborhood commerical composition: Evidence from Denver micro-data
+   \begin{innerlist}\item[] with Stephen Billings and Sriram Villupuram \emph{[Working]}\end{innerlist}
+
+\item[]Towards a new view of corporate headquarter relocation: the role of professional networks in location choice.
+   \emph{[Working]}
+
+ \item[]Estimating the Role of Asymmetric Information and Precision in
+    Goal Choice Incentive Programs  \emph{[Resubmit]}
+    \begin{innerlist}\item[] with P. Norberg\end{innerlist}
+
+ \item[] Vertical Tax Externalities: Evidence from Michigan
+ \begin{innerlist}\item[] with T. Komarek \emph{[Working]}\end{innerlist}
+
+ \item[] Estimating the role of Emotion in Auctions
+ \begin{innerlist}\item[] with Cary Deck and Adrianna Braeban \emph{[Working]}\end{innerlist}
+
+ \item[] Unintended Impacts of No Child Left Behind: District Secession and School Segregation
+ \begin{innerlist}\item[] with M. Finnegan, A. Ross, and L. Razzolini \emph{[Working]}\end{innerlist}
+
+\item[]Differential taxation in a dualcentric city
+  \begin{innerlist}\item[] with Jason Pearcy \end{innerlist}
+
+\end{bibenum}
+
+\section{Professional Service}
+\begin{outerlist}
+    \item[] \textbf{Editorial Board}
+        \begin{innerlist}
+            \item[] \href{https://academic.oup.com/joeg/pages/Editorial_Board}{Journal of Economic Geography} (2017-Present)
+        \end{innerlist}
+\end{outerlist}
+
+\section{Conference Presentations}
+
+\begin{outerlist}
+\item[] \textbf{Federal Reserve Banks}
+    \begin{innerlist}
+    \item[] Richmond 2016, 2017
+    \item[] Boston  2010
+    \end{innerlist}
+\item[] \textbf{American Real Estate and Urban Economics Association - ASSA Meetings}
+    \begin{innerlist}
+    \item[] 2017, 2014
+    \end{innerlist}
+\item[] \textbf{Annual North American Meetings of the Regional Science Association International}
+    \begin{innerlist}
+    \item[] 2016, 2013, 2008
+    \end{innerlist}
+\item[] \textbf{NBER Summer Institute - Urban Economics}
+    \begin{innerlist}
+    \item[] 2013
+    \end{innerlist}
+\item[] \textbf{The Public Choice Society}
+    \begin{innerlist}
+    \item[] 2013
+    \end{innerlist}
+\item[] \textbf{Annual Meetings of the National Tax Association}
+    \begin{innerlist}
+    \item[] 2012, 2010
+    \end{innerlist}
+\item[] \textbf{European Regional Science Association}
+    \begin{innerlist}
+    \item[] 2012
+    \end{innerlist}
+\item[] \textbf{Southern Regional Science Association}
+    \begin{innerlist}
+    \item[] 2012
+    \end{innerlist}
+\item[] \textbf{Meetings of the Southern Economics Association}
+    \begin{innerlist}
+    \item[] 2010
+    \end{innerlist}
+\item[] \textbf{Western Regional Science Association}
+    \begin{innerlist}
+    \item[] 2010
+    \end{innerlist}
+\end{outerlist}
+
+\section{Academic Grants}
+\begin{outerlist}
+  \item[] \href{https://algotraffic.com/Cameras}{\textbf{Alabama a Department of Transportation}} (2018)
+  \begin{innerlist}
+     \item[] Using TensorFlow for Traffic Monitoring in West Central Alabama
+\end{innerlist}
+\end{outerlist}
+\begin{outerlist}
+  \item[] \href{https://www.cdbb.cam.ac.uk/}{\textbf{University of Cambridge - Centre for a Digital Built Britian}} (2018)
+  \begin{innerlist}
+     \item[] Machine Learning and AI in the Built Environment
+\end{innerlist}
+\end{outerlist}
+\begin{outerlist}
+  \item[] \href{http://www.lincolninst.edu/}{\textbf{Lincoln Institute of Land Policy}} (2006)
+  \begin{innerlist}
+     \item[] Impact of Michigan's Proposal A on vacation home outcomes
+\end{innerlist}
+\end{outerlist}
+
+\section{Teaching Experience}
+\begin{outerlist}
+\item[] \textbf{Graduate}
+\begin{innerlist}
+    \item[] Economics of Decision Making (MBA)
+\end{innerlist}
+\item[] \textbf{Undergraduate}
+\begin{innerlist}
+        \item[]Principles of Microeconomics
+        \item[]Principles of Macroeconomics
+        \item[]Intermediate Macroeconomics
+        \item[]Business Statistics
+        \item[]Honors Statistics
+        \item[]Econometrics
+        \item[]Advanced Econometrics
+        \item[]Game Theory
+        \item[]Urban Economics
+        \item[]Public Finance
+    \end{innerlist}
+\end{outerlist}
+
+\section{Related Work Experience}
+\begin{outerlist}
+  \item[] \href{http://www.grpva.com}{\textbf{Greater Richmond Partnership}}, (2015-2017)
+  \begin{innerlist}
+    \item[] Fortune 1000 headquarter relocation targeting
+   \end{innerlist}
+  \item[] \href{http://www.biworldwide.com/en}{\textbf{BI Worldwide}}, 2012-2014
+  \begin{innerlist}
+    \item[] Employee incentive program analysis and optimization
+  \end{innerlist}
+ \item[] \href{http://www.mof.gov.mn/?lang=en}{\textbf{Mongolian Ministry of Finance (World Bank)}}, 2008
+  \begin{innerlist}
+    \item[] Public investment system design and education
+\end{innerlist}
+ \item[] \href{http://www.pplusic.com/}{\textbf{Physician's Plus Insurance}}, Actuarial Department, 2000-2002
+  \begin{innerlist}
+  \item[] Underwriting system development
+  \end{innerlist}
+\end{outerlist}
+
+\section{References}
+\href
+{http://www.hbs.edu/faculty/Pages/profile.aspx?facId=337265}
+{\textbf{Dr.~William ~Kerr}}
+(e-mail:~\href{wkerr@hbs.edu}{wkerr@hbs.edu}; phone:~+1 617 496-7021)
+\begin{innerlist}
+   \item[]MBA Class of 1975 Professor of Entrepreneurial Management, Harvard Business School
+\end{innerlist}
+
+\href
+{http://www.economics.illinois.edu/people/mcmillen/McMillen.aspx}
+{\textbf{Dr.~Daniel ~McMillen}}
+(e-mail:~\href{mcmillen@illinois.edu}{mcmillen@illinois.edu}; phone:~+1 217-333-8930)
+\begin{innerlist}
+   \item[]Professor of Economics, University of Illinois
+\end{innerlist}
+
+\href
+{https://www.qu.edu/student-resources/directory/staff.4319.html}
+{\textbf{Dr.~Donn ~Johnson}}
+(e-mail:~\href{Donn.Johnson@quinnipiac.edu}{Donn.Johnson@quinnipiac.edu}; phone:~+1 203-582-8205)
+\begin{innerlist}
+   \item[]Professor of Economics, Quinnipiac University
+\end{innerlist}
+%\halfblankline
+
+%\href
+%{http://www.colorado.edu/Economics/people/faculty/debartolome.html}
+%{\textbf{Dr.~Charles de ~Bartolem\'{e}}}
+%(e-mail:~\href{charles.debartolome@colorado.edu}{charles.debartolome@colorado.edu}; phone:~+1-303-492-4464)
+%
+%\begin{innerlist}
+%    \item[]Professor,
+%        \href{http://www.colorado.edu/Economics/}{Department of Economics},
+%        \href{http://www.colorado.edu/}{University of Colorado}
+
+%    \item[$\star$] \emph{Dr.~de Bartolom\'{e} was on my dissertation committee.}
+%\end{innerlist}
+
+%\halfblankline
+
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% End CV Document %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------%
+% The following is copyright and licensing information for
+% redistribution of this LaTeX source code; it also includes a liability
+% statement. If this source code is not being redistributed to others,
+% it may be omitted. It has no effect on the function of the above code.
+%----------------------------------------------------------------------%
+% Copyright (c) 2007, 2008, 2009, 2010, 2011 by Theodore P. Pavlic
+%
+% Unless otherwise expressly stated, this work is licensed under the
+% Creative Commons Attribution-Noncommercial 3.0 United States License. To
+% view a copy of this license, visit
+% http://creativecommons.org/licenses/by-nc/3.0/us/ or send a letter to
+% Creative Commons, 171 Second Street, Suite 300, San Francisco,
+% California, 94105, USA.
+%
+% THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+% OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+% MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON INFRINGEMENT.
+% IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+% CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+% TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+% SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+%----------------------------------------------------------------------%
